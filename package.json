@@ -1,0 +1,12 @@
+{
+  "name": "cleandeps-cli",
+  "version": "0.1.0",
+  "main": "index.js",
+  "bin": {
+    "cleandeps":"./bin/cleandeps.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "Clean node_modules and reinstall dependencies safely"
+}
