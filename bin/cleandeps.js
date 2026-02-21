@@ -6,6 +6,11 @@ const path = require("path");
 const cwd = process.cwd();
 const pkgPath = path.join(cwd, "package.json");
 const nodeModulesPath = path.join(cwd, "node_modules");
+const packageManagers = [
+  { name: "npm", lockFile: "package-lock.json", installCommand: "npm install" },
+  { name: "bun", lockFile: "bun.lockb", installCommand: "bun install" },
+  { name: "yarn", lockFile: "yarn.lock", installCommand: "yarn install" },
+];
 
 function fileExists(filePath) {
   try {
@@ -27,19 +32,19 @@ if (!fileExists(pkgPath)) {
 console.log("✅ Found package.json");
 console.log(`📁 Project: ${cwd}`);
 
-if (!fs.existsSync(nodeModulesPath)) {
-  console.log("Node modules not found");
-  process.exit(1);
-}
-console.log("node modules found");
+// if (!fs.existsSync(nodeModulesPath)) {
+//   console.log("Node modules not found");
+//   process.exit(1);
+// }
+// console.log("node modules found");
 
-if (!fs.statSync(nodeModulesPath).isDirectory()) {
-  console.error("This is not a valid directory");
-  process.exit(1);
-}
-console.log("correct path");
-if (!path.basename(nodeModulesPath) === "node_modules") {
-  console.error("Not a valid path");
-  process.exit(1);
-}
-console.log("correct path2");
+// if (!fs.statSync(nodeModulesPath).isDirectory()) {
+//   console.error("This is not a valid directory");
+//   process.exit(1);
+// }
+// console.log("correct path");
+// if (path.basename(nodeModulesPath) !== "node_modules") {
+//   console.error("Not a valid path");
+//   process.exit(1);
+// }
+// console.log("correct path2");
