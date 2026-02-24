@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const execSync = require("child_process").execSync;
 
 const cwd = process.cwd();
 const pkgPath = path.join(cwd, "package.json");
@@ -32,19 +33,47 @@ if (!fileExists(pkgPath)) {
 console.log("✅ Found package.json");
 console.log(`📁 Project: ${cwd}`);
 
-// if (!fs.existsSync(nodeModulesPath)) {
-//   console.log("Node modules not found");
-//   process.exit(1);
-// }
-// console.log("node modules found");
+const packageManager = detectPackageManager(cwd);
+removeNodeModules(cwd);
+installDependencies(packageManager);
 
-// if (!fs.statSync(nodeModulesPath).isDirectory()) {
-//   console.error("This is not a valid directory");
-//   process.exit(1);
-// }
-// console.log("correct path");
-// if (path.basename(nodeModulesPath) !== "node_modules") {
-//   console.error("Not a valid path");
-//   process.exit(1);
-// }
-// console.log("correct path2");
+function detectPackageManager(dirPath) {
+  const packageManager = packageManagers.find((pm) => {
+    const lockFilePath = path.join(dirPath, pm.lockFile);
+    return fileExists(lockFilePath);
+  });
+  if (packageManager === undefined) {
+    console.error("❌ CleanDeps: No package manager found in this folder");
+    console.error(
+      "➡️ Run this command inside a Node project where a lock file exists).",
+    );
+    process.exit(1);
+  }
+
+  return packageManager;
+}
+
+function removeNodeModules(dirPath) {
+  console.log("🗑️ Removing node_modules...");
+  try {
+    fs.rmSync(path.join(dirPath, "node_modules"), {
+      recursive: true,
+      force: true,
+    });
+    console.log("✅ node_modules removed");
+  } catch (error) {
+    console.error("❌ Failed to remove node_modules");
+    process.exit(1);
+  }
+}
+
+function installDependencies(packageManager) {
+  console.log("📦 Installing dependencies...");
+  try {
+    execSync(packageManager.installCommand, { stdio: "inherit" });
+    console.log("✅ Dependencies installed");
+  } catch (error) {
+    console.error("❌ Failed to install dependencies");
+    process.exit(1);
+  }
+}
