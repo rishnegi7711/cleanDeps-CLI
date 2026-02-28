@@ -3,6 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const execSync = require("child_process").execSync;
+const pkg = require("../package.json");
 
 const cwd = process.cwd();
 const pkgPath = path.join(cwd, "package.json");
@@ -11,6 +12,21 @@ const packageManagers = [
   { name: "bun", lockFile: "bun.lockb", installCommand: "bun install" },
   { name: "yarn", lockFile: "yarn.lock", installCommand: "yarn install" },
 ];
+
+if (process.argv[2] === "--help" || process.argv[2] === "-h") {
+  console.log(
+    "CleanDeps removes node_modules and safely installs dependencies",
+  );
+  console.log(
+    "To run it, just use the following command inside your directory : cleandeps",
+  );
+  process.exit(0);
+}
+
+if (process.argv[2] === "--version" || process.argv[2] === "-v") {
+  console.log(pkg.version);
+  process.exit(0);
+}
 
 function fileExists(filePath) {
   try {
