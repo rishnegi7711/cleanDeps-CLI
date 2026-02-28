@@ -6,7 +6,6 @@ const execSync = require("child_process").execSync;
 
 const cwd = process.cwd();
 const pkgPath = path.join(cwd, "package.json");
-const nodeModulesPath = path.join(cwd, "node_modules");
 const packageManagers = [
   { name: "npm", lockFile: "package-lock.json", installCommand: "npm install" },
   { name: "bun", lockFile: "bun.lockb", installCommand: "bun install" },
@@ -54,9 +53,15 @@ function detectPackageManager(dirPath) {
 }
 
 function removeNodeModules(dirPath) {
+  const nodeModulesPath = path.join(dirPath, "node_modules");
+
+  if (!fs.existsSync(nodeModulesPath)) {
+    console.log("❗️ No Node modules folder found,skipping cleaning");
+    return;
+  }
   console.log("🗑️ Removing node_modules...");
   try {
-    fs.rmSync(path.join(dirPath, "node_modules"), {
+    fs.rmSync(nodeModulesPath, {
       recursive: true,
       force: true,
     });
