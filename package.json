@@ -3,10 +3,19 @@
   "version": "0.1.0",
   "main": "index.js",
   "bin": {
-    "cleandeps":"./bin/cleandeps.js"
+    "cleandeps": "./bin/cleandeps.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "node_modules",
+    "clean",
+    "reinstall",
+    "dependencies",
+    "npm",
+    "bun",
+    "yarn",
+    "cli"
+  ],
+  "author": "Rishi",
   "license": "MIT",
   "description": "Clean node_modules and reinstall dependencies safely"
 }
