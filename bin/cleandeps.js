@@ -9,6 +9,7 @@ const cwd = process.cwd();
 const pkgPath = path.join(cwd, "package.json");
 const packageManagers = [
   { name: "npm", lockFile: "package-lock.json", installCommand: "npm install" },
+  { name: "bun", lockFile: "bun.lock", installCommand: "bun install" },
   { name: "bun", lockFile: "bun.lockb", installCommand: "bun install" },
   { name: "yarn", lockFile: "yarn.lock", installCommand: "yarn install" },
 ];
